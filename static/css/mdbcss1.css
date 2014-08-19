@@ -1,0 +1,5 @@
+body {overflow-y: scroll}
+
+#dSR {display: none;}
+#dSR > ul > li {list-style: none;}
+#dSR > ul > li > img {width: 200px;}
