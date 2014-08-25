@@ -1,9 +1,14 @@
 <html>
 <head>
-    <title>Module Name</title>
+    <title>Movie DB</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/mdbcss1.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/rslider.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/rslider-controls.css">
+
+    <script type="text/javascript" src="/static/js/vendors/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/rslider.js"></script>
 </head>
 
 <body>
@@ -20,16 +25,18 @@
           <a class="navbar-brand" href="/">Movies DB</a>
         </div>
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Now Showing</a></li>
-              <li><a href="#about">Upcoming</a></li>
-              <li><a href="#contact">Popular</a></li>
+            <ul class="nav navbar-nav" role="sticky">
+              <li><a href="#grid0">Preview</a></li>
+              <li><a href="#grid1">Now Showing</a></li>
+              <li><a href="#grid2">Upcoming</a></li>
+              <li><a href="#grid3">Popular</a></li>
+              <li><a href="#grid4">Top Rated</a></li>
             </ul>
             <form id="form-search" class="navbar-form navbar-left pull-right" role="search">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search">
                 <span class="input-group-btn dang">
-                  <button class="btn btn-primary" type="button">&nbsp;<i class="fa fa-search"></i></button>
+                  <button class="btn btn-primary" type="submit">&nbsp;<i class="fa fa-search"></i></button>
                 </span>
               </div>
               
@@ -37,27 +44,59 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-    <div class="container" style='top: 70px; position: relative;'>
-        <div id="main-container" class='row'>
-          <div id="dNS"></div>
-          <div id="dSR">
-            <h1>Results</h1>
-            <ul id="dSRP" class="pagination pagination-sm">
-            </ul>
-            <ul id="dispResults">
-              
-            </ul>
-            <ul id="dSRP" class="pagination pagination-sm">
-            </ul>
-          </div>
-        </div><!-- /.row -->
+   
+    <div id="grid0"> <!--carousel-->
+      <div class="sNP-brander"><h1>This Month</h1></div>
+      <div id="showNowPlaying" class="royalSlider heroSlider rsMinW" >
+      </div><!--carousel end-->
+    </div>
+    <div id="grid1" class="clearfix">
+      <h1>Now Showing</h1>
+      <div>
+        <ul></ul>
+        <div class="clearfix"></div>
+        <center><ul class="pagination pagination-sm"></ul></center>
+      </div>
+    </div>
+    <div id="grid2" class="clearfix">
+      <h1>Upcoming</h1>
+      <div>
+        <ul></ul>
+        <div class="clearfix"></div>
+        <center><ul class="pagination pagination-sm"></ul></center>
+      </div>
+    </div>
+    <div id="grid3" class="clearfix">
+      <h1>Popular</h1>
+      <div>
+        <ul></ul>
+        <div class="clearfix"></div>
+        <center><ul class="pagination pagination-sm"></ul></center>
+      </div>
+    </div>
+    <div id="grid4" class="clearfix">
+      <h1>Top Rated</h1>
+      <div>
+        <ul></ul>
+        <div class="clearfix"></div>
+        <center><ul class="pagination pagination-sm"></ul></center>
+      </div>
+    </div>
+    <div id="grid5" class="clearfix">
+      <h1>Search</h1>
+      <form id="form-search-main" class="navbar-form has-success" role="search">
+        <div class="input-group input-group-lg" style="width:100%" >
+          <span style="width:50px" class="input-group-addon"><i class="fa fa-search"></i></span>
+          <input type="text" class="form-control" placeholder="Type the title of the movie">
+        </div>  
+      </form>
+      <div>
+        <ul></ul>
+        <div class="clearfix"></div>
+        <center><ul class="pagination pagination-sm"></ul></center>
+      </div>
     </div><!-- /.container -->
-
-    <script src="/static/js/vendors/jquery.js"></script>
     <script src="/static/js/vendors/bootstrap.min.js"></script>
     <script src="/static/js/app.js"></script>
-
 </body>
-
 </html>

@@ -1,5 +1,18 @@
 body {overflow-y: scroll}
 
-#dSR {display: none;}
-#dSR > ul > li {list-style: none;}
-#dSR > ul > li > img {width: 200px;}
+.sNP-brander{background:rgba(255,255,255,0.7);position:absolute;top:70px;z-index:999;right:30px;color:#000;padding:0 10px}
+
+#grid5 > ul > li  {width: 100px;}
+
+[id*="grid"] {top:40px;position: relative;border-bottom:1px #777 solid;}
+#grid0 {top:0;}
+
+#grid5 {top: 40px; position: relative;background:#222;width:100%;padding-bottom: 40px;}
+#grid5 * {color:#fff;}
+#grid5 .input-group-addon i, ul > li > a {color: #222 !important;}
+/*
+#grid1 {background: #FFFF99;}
+#grid2 {background: #99CCFF;}
+#grid3 {background: #66FF33;}
+#grid4 {background: #FFA3A3;}
+*/
