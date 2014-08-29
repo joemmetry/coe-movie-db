@@ -64,7 +64,7 @@ $(function() {
                 var imgpath = fetched.results[x].poster_path != null  && fetched.results != "undefined" ? ("https://image.tmdb.org/t/p/w500" + fetched.results[x].poster_path) : "/static/img/no_image.jpg";
                 var title = fetched.results[x].title != '' ? fetched.results[x].title : 'Untitled Movie';
                 var result = "<li class=\"col-md-4\" style=\"background:rgba(96,96,96,0.2);max-width:290px;height:340px;margin:10px;padding:10px 5px;\"><center><img style=\"max-width:60%;max-height:400px\" class=\"clearfix\" src='" + imgpath + "'></center>" + 
-                    "<center><div style=\"\"><a href=\"#\">" + title + "</a></div>" +
+                    "<center><div style=\"\"><a role=\"movie-viewer\" href=\"/view/" + fetched.results[x].id + "\">" + title + "</a></div>" +
                     "<div><i class=\"fa fa-thumbs-o-up\"></i> " + fetched.results[x].vote_count + " votes " +
                     "<i class=\"fa fa-bar-chart-o\"></i> " + Math.round(fetched.results[x].popularity * 100)/100 + "% " +
                     "<i class=\"fa fa-calendar-o\"></i> " + fetched.results[x].release_date + "</div>" +
@@ -112,8 +112,6 @@ $(function() {
         });
     };
     var dispMoviePreview = function(data){
-        console.log(data);
-
         for(var x = 0; x < data.results.length - 1; x ++){
             if(data.results[x].backdrop_path != null){
                 var effect = ['left','top','right','bottom'],
@@ -122,7 +120,7 @@ $(function() {
                     result = "<div class=\"rsContent\">" +
                                 "<img class=\"rsImg\" src=\"" + imgpath + "\" alt=\"\">" +
                                     "<div class=\"infoBlock infoBlockLeftBlack rsABlock\" data-fade-effect=\"\" data-move-offset=\"20\" data-move-effect=\"" + effect[getRandomInt(0,4%x)] + "\" data-speed=\"200\">" +
-                                        "<h4><a href=\"\">" + title + "</a></h4>" +
+                                        "<h4><a href=\"/view/" + data.results[x].id + "\">" + title + "</a></h4>" +
                                         "<p>" +
                                             "<ul class=\"list-unstyled\">" +
                                                 "<li><i class=\"fa fa-star\"></i> " + data.results[x].vote_average + "/10</li>" +
@@ -195,60 +193,83 @@ $(function() {
         }
       });
 });
-/*
-
-    var displayMovieSearchContent = function(){
-        $(document).on('click','#dSRP li',function(e){
-            e.preventDefault();
-
-            var elem = $(this).children(),
-                innerVal = elem.html(),
-                queryN = $('#form-search > div > input[type=text]').val(),
-                index = $(this).index();
-            
-            switch(index){
-                case 0:
-                    if(currentPage > 1){
-                        searchMovie(queryN,currentPage - 1);
-                        currentPage--;
-                        $( "body" ).find( "#dSRP li" ).removeClass('active').eq(currentPage).addClass('active');
-                    }
-                    if(currentPage == 1){
-                        $('#dSRP li:first-child').addClass('disabled').attr('disabled','disabled');
-                    }
-                    if(currentPage != pageLength){
-                        $('#dSRP li:last-child').removeClass('disabled').removeAttr('disabled');    
-                    }
-                    break;
-                case pageLength + 1:
-                    if(currentPage < pageLength){
-                        searchMovie(queryN,currentPage + 1);
-                        currentPage++;
-                        $( "body" ).find( "#dSRP li" ).removeClass('active').eq(currentPage).addClass('active');
-                    }
-                    if(currentPage == pageLength){
-                        $('#dSRP li:last-child').addClass('disabled').attr('disabled','disabled');
-                    }
-                    if(currentPage != 1){
-                        $('#dSRP li:first-child').removeClass('disabled').removeAttr('disabled');   
-                    }
-                    break;
-                default:
-                    searchMovie(queryN,innerVal);
-                    currentPage = innerVal;
-                    if(currentPage != 1 || pageLength){
-                        $('#dSRP li:first-child, #dSRP li:last-child').removeClass('disabled').removeAttr('disabled');          
-                    }
-                    if(currentPage == 1){
-                        $('#dSRP li:first-child').addClass('disabled').attr('disabled', 'disabled');    
-                    }
-                    if(currentPage == pageLength){
-                        $('#dSRP li:last-child').addClass('disabled').attr('disabled', 'disabled');
-                    }
-                    $('#dSRP li').removeClass('active');
-                    $(this).addClass('active');
-                    break;
-            }
-        });
-    };
-*/
+        var showResult = function(a){
+          b = baseUrl + "movie/" + a;
+          c = { api_key: api};
+          $.get(b,c,showSelected);
+          $.get(b,c,showSynopsis);
+        };
+        var showSelected = function(a){
+          b = {api_key: api};
+          c = baseUrl + "movie/" + movieID;
+          d = a.original_title + " <small>" +
+              "<i class=\"fa fa-thumbs-o-up\"></i> " + a.vote_count + " votes " +
+                                  "<i class=\"fa fa-bar-chart-o\"></i> " + Math.round(a.popularity * 100)/100 + "% " +
+                                  "<i class=\"fa fa-calendar-o\"></i> " + a.release_date + "</small>" ;
+          $('#grid0 > .container > .page-header > h3').html(d);
+          $.get(c + "/videos", b, showTrailer);
+          $.get(c + "/credits",b,showCasting);
+          $.get(c + "/similar",b,showRelated);
+        };
+        var showTrailer = function(a){
+          var a = (a.results.length > 0) ? "https://www.youtube.com/v/" + a.results[0].key : '',
+              b = function(a){
+                    return '<embed width="640px" height="360px" src="'+a+'" type="application/x-shockwave-flash">';
+              },
+              c = '<div style="width:640px;height:360px;background:#222"><div><center style="padding-top:154px;color:#fff;">No Trailer Available</center></div></div>';
+          $('.mv').html(b(a));
+          if(a == ''){
+            $('.mv').html(c);
+          }
+        };
+        var showRelated = function(a){
+          var a = a.results,
+              b,
+              c = function(d){
+                    d.title = (d.title.length<1)? d.original_title : d.title;
+                        f = '<div class="mrL">' +
+                              '<div>' +
+                                '<a href="/view/' + d.id +'"><img src="' + (d.backdrop_path == null ? "/static/img/no_image.jpg" : 
+                                  'http://image.tmdb.org/t/p/w300' + d.backdrop_path)+'"/></a>' +
+                              '</div>' +
+                              '<div>' +
+                                '<div>' +
+                                  '<a href="/view/' + d.id +'">'+d.title+'</a> ' +
+                                  "<i class=\"fa fa-thumbs-o-up\"></i> " + d.vote_count + " votes " +
+                                  "<i class=\"fa fa-bar-chart-o\"></i> " + Math.round(d.popularity * 100)/100 + "% " +
+                                  "<i class=\"fa fa-calendar-o\"></i> " + d.release_date +
+                                '</div>' +
+                                '<div class="ms-' + d.id +'">' +
+                                  e(d.id) +
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                    return f;
+              },
+              e = function(a){
+                $.get(baseUrl + "movie/" + a,{api_key:api},function(b){ $('.ms-'+a).append(b.overview);});
+                return '';
+              };
+          for(var i=0;i<a.length;i++){
+            b= c(a[i]);
+            $(".mr").append(b);
+          }
+        };
+        var showSynopsis = function(a){
+          $('.ms').html(a.overview);
+        };
+        var showCasting = function(a){
+          var a = a.cast, b="";
+          for(var i=0;i<a.length;i++){
+            b+= '<div class="mcL">' +
+                  '<div>' +
+                    '<img src="' + (a[i].profile_path != "" ? 'http://image.tmdb.org/t/p/w45' + a[i].profile_path : '/static/img/no_image.jpg') + '/">' +
+                  '</div>' +
+                  '<div>' +
+                    '<span><strong>' + a[i].name + '</strong> as ' + a[i].character + '</span>' + 
+                  '</div>' +
+                '</div>';
+          }
+          $('.mc').html(b);
+        };
+        

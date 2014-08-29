@@ -1,8 +1,8 @@
-body {overflow-y: scroll}
+body {overflow-y: scroll;font-family: Tahoma, Verdana, Arial, sans-serif !important;}
 
 .sNP-brander{background:rgba(255,255,255,0.7);position:absolute;top:70px;z-index:999;right:30px;color:#000;padding:0 10px}
 
-#grid5 > ul > li  {width: 100px;}
+#grid5 li  {list-style: none;}
 
 [id*="grid"] {top:40px;position: relative;border-bottom:1px #777 solid;}
 #grid0 {top:0;}
@@ -10,9 +10,27 @@ body {overflow-y: scroll}
 #grid5 {top: 40px; position: relative;background:#222;width:100%;padding-bottom: 40px;}
 #grid5 * {color:#fff;}
 #grid5 .input-group-addon i, ul > li > a {color: #222 !important;}
+
 /*
 #grid1 {background: #FFFF99;}
 #grid2 {background: #99CCFF;}
 #grid3 {background: #66FF33;}
 #grid4 {background: #FFA3A3;}
 */
+.mv {width:500px;display: inline-block;}
+.md {width: 450px;display: inline-block;float: right;text-align: justify;}
+.mr {width: 1150px;display: block;border:1px #a8a8a8 solid;padding: 0}
+.mr > .mrL {border-bottom: 1px #a8a8a8 solid;}
+.mr > .mrL:last-child{border-bottom: 0px;}
+.mr > .mrL > div {display: inline-block;}
+.mr > .mrL > div:first-child > a > img, .mr > .mrL > div:first-child {width: 300px;}
+.mr > .mrL > div:first-child > a > img{border-right: 1px #a8a8a8 solid;}
+.mr > .mrL > div:first-child > a > img:hover {-webkit-box-shadow: inset 0px 0px 150px 10px rgba(0,0,0,0.8);
+-moz-box-shadow: inset 0px 0px 150px 10px rgba(0,0,0,0.8);
+box-shadow: inset 0px 0px 150px 10px rgba(0,0,0,0.8);}
+.mr > .mrL > div:last-child {width:780px;margin:20px;margin-right:0;vertical-align: top;}
+.mc {width: 450px;height:200px;overflow-y:scroll;position: relative;border:1px #a8a8a8 solid;}
+.mc > .mcL > div {display: inline-block;}
+.mc > .mcL {border-bottom: 1px #a8a8a8 solid;}
+.mc > .mcL:last-child {border-bottom: 0px;}
+.mc > .mcL > div > img, .mc > .mcL > div > div {margin:10px;}
