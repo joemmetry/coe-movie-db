@@ -117,8 +117,24 @@
                     <i class="fa fa-calendar-o"></i>  {{resreldate}} </div>
                      </center></li>
         {%endraw%}
-
-
         </script>
+    <script type="text/x-handlebars-template" class = "dispMoviePreview">
+            {%raw%}
+                    <div class="rsContent">
+                                         <img class="rsImg" src="{{img}}" alt>
+                                    <div class="infoBlock infoBlockLeftBlack rsABlock data-fade-effect="" data-move-offset="20" data-move-effect="{{getranint}}"data-speed= "200"">
+                                        <h4><a href="/view/{{dataid}}"> {{title1}}</a></h4>
+                                        <p>
+                                            <ul class="list-unstyled">
+                                               <li><i class="fa fa-star"></i> "{{avevote}}"/10</li>
+                                               <li><i class="fa fa-thumbs-o-up"></i>{{vcount}} votes</li>
+                                               <li><i class="fa fa-bar-chart-o"></i>{{respop}} %</li> 
+                                               <li><i class="fa fa-calendar-o"></i> {{reldate}} </li>
+                                            </ul>
+                                        </p>
+                                    </div>
+                              </div>
+             {%endraw%}
+  </script>
 </body>
 </html>

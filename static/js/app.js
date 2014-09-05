@@ -129,21 +129,26 @@ $(function() {
                 var effect = ['left','top','right','bottom'],
                     imgpath = data.results[x].backdrop_path != null  && data.results != "undefined" ? ("https://image.tmdb.org/t/p/original/" + data.results[x].backdrop_path) : "/static/img/no_image.jpg",
                     title = data.results[x].title != '' ? data.results[x].title : 'Untitled Movie',
-                    result = "<div class=\"rsContent\">" +
-                                "<img class=\"rsImg\" src=\"" + imgpath + "\" alt=\"\">" +
-                                    "<div class=\"infoBlock infoBlockLeftBlack rsABlock\" data-fade-effect=\"\" data-move-offset=\"20\" data-move-effect=\"" + effect[getRandomInt(0,4%x)] + "\" data-speed=\"200\">" +
-                                        "<h4><a href=\"/view/" + data.results[x].id + "\">" + title + "</a></h4>" +
-                                        "<p>" +
-                                            "<ul class=\"list-unstyled\">" +
-                                                "<li><i class=\"fa fa-star\"></i> " + data.results[x].vote_average + "/10</li>" +
-                                                "<li><i class=\"fa fa-thumbs-o-up\"></i> " + data.results[x].vote_count + " votes</li>" +
-                                                "<li><i class=\"fa fa-bar-chart-o\"></i> " + Math.round(data.results[x].popularity * 100)/100 + "%</li>" +
-                                                "<li><i class=\"fa fa-calendar-o\"></i> " + data.results[x].release_date + "</li>" +
-                                            "</ul>" +
-                                        "</p>" +
-                                    "</div>" +
-                              "</div>";
-                $('#showNowPlaying').append(result);
+                    effgetranint = effect[getRandomInt(0,4%x)],
+                    votave = data.results[x].vote_average,
+                    pop = Math.round(data.results[x].popularity * 100)/100,
+                    reldate = data.results[x].release_date,
+                    votecount = data.results[x].vote_count,
+                    id = data.results[x].id,
+                    result = {
+                                  "img" : imgpath,
+                                  "title1" : title,         
+                                  "getranint" : effgetranint,
+                                  "vcount": votecount,
+                                  "avevote" : votave,
+                                  "respop" : pop,
+                                  "resreldate" : reldate,
+                                  "dataid" : id,
+                          };
+                                  var raw = $('.dispMoviePreview').html();
+                                  var template = Handlebars.compile(raw);
+                                  var html = template(result);
+                                  $('#showNowPlaying').append(html); 
             }
         }
         
@@ -210,6 +215,7 @@ $(function() {
           c = { api_key: api};
           $.get(b,c,showSelected);
           $.get(b,c,showSynopsis);
+          $.get(b,c,showTagline);
         };
         var showSelected = function(a){
           b = {api_key: api};
@@ -269,6 +275,9 @@ $(function() {
         };
         var showSynopsis = function(a){
           $('.ms').html(a.overview);
+        };
+        var showTagline = function(a){
+          $('.ma').html(a.tagline);
         };
         var showCasting = function(a){
           var a = a.cast, b="";
