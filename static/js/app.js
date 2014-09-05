@@ -62,14 +62,26 @@ $(function() {
         $.get(useUrl,reqParams, function(fetched){
             for(var x = 0; x < fetched.results.length; x++){
                 var imgpath = fetched.results[x].poster_path != null  && fetched.results != "undefined" ? ("https://image.tmdb.org/t/p/w500" + fetched.results[x].poster_path) : "/static/img/no_image.jpg";
+                var bdpath= fetched.results[x].backdrop_path != null  && fetched.results != "undefined" ? ("https://image.tmdb.org/t/p/w500" + fetched.results[x].backdrop_path) : "/static/img/no_image.jpg";
                 var title = fetched.results[x].title != '' ? fetched.results[x].title : 'Untitled Movie';
-                var result = "<li class=\"col-md-4\" style=\"background:rgba(96,96,96,0.2);max-width:290px;height:340px;margin:10px;padding:10px 5px;\"><center><img style=\"max-width:60%;max-height:400px\" class=\"clearfix\" src='" + imgpath + "'></center>" + 
-                    "<center><div style=\"\"><a role=\"movie-viewer\" href=\"/view/" + fetched.results[x].id + "\">" + title + "</a></div>" +
-                    "<div><i class=\"fa fa-thumbs-o-up\"></i> " + fetched.results[x].vote_count + " votes " +
-                    "<i class=\"fa fa-bar-chart-o\"></i> " + Math.round(fetched.results[x].popularity * 100)/100 + "% " +
-                    "<i class=\"fa fa-calendar-o\"></i> " + fetched.results[x].release_date + "</div>" +
-                 "      </center></li>";
-                $('#'+selectGrid + ' > div > ul').append(result);
+                var fetchedresid = fetched.results[x].id;
+                var fetchedvote  = fetched.results[x].vote_count;
+                var fetchedpop = Math.round(fetched.results[x].popularity *100)/100;
+                var  fetchedreldate = fetched.results[x].release_date;
+                  var poster = {
+                          "image" : imgpath,
+                          "resid" : fetchedresid,
+                          "title1" : title,
+                         "resvote" : fetchedvote,
+                         "respop" : fetchedpop,
+                         "resreldate" : fetchedreldate,
+                         "bdimg" : bdpath,
+                          };
+                    var rawpost = $('.backdrop').html();
+                    var templatepost = Handlebars.compile(rawpost);
+                    var htmlpost = templatepost(poster);
+                    $('#'+selectGrid + '> div > ul').append(htmlpost);
+                    
             }
             var startPage = (fetched.page<4)? 1:fetched.page-3;
             var endPage = (fetched.total_pages-fetched.page>7)? startPage+10: fetched.total_pages+1;
